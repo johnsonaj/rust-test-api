@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  api:
+    build: .
+    restart: always
+    command: ['./rust-test-api']
+    ports:
+      - 8000:8000
+    networks:
+      - local
+    environment:
+      DATABASE_DSN: root:password@tcp(mysql:3306)/?parseTime=true
+
+networks:
+  local: {}
