@@ -10,8 +10,8 @@ pub struct PeopleService {
 }
 
 impl PeopleService {
-    pub fn new(base: &'static str) -> PeopleService {
-        PeopleService{
+    pub fn new(base: &'static str) -> Self {
+        Self{
             url: base
         }
     }
