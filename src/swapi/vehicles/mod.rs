@@ -2,8 +2,8 @@ extern crate reqwest;
 use reqwest::Error;
 use serde_json::Value;
 
-mod vehicle;
-use vehicle::{Vehicle};
+pub use vehicle::{Vehicle};
+pub mod vehicle;
 
 #[derive(Clone)]
 pub struct VehicleService {

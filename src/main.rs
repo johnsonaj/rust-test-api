@@ -44,7 +44,7 @@ fn get_vehicle(id: i32, vs: State<VehicleService>) -> Json<JsonValue> {
 fn main() {
     let base_url = "https://swapi.dev/api/";
     let vs = VehicleService::new(base_url.to_string());
-    let ps = PeopleService::new(base_url.to_string(), vs.clone());    
+    let ps = PeopleService::new(base_url);    
 
     rocket::ignite()
         .manage(ps)
