@@ -16,28 +16,28 @@ use swapi::vehicles::VehicleService;
 fn get_people(ps: State<PeopleService>) -> Json<JsonValue> {
     let p = ps.get_people();
 
-    return Json(json!(p))
+    Json(json!(p))
 }
 
 #[get("/<id>")]
 fn get_person(id: i32, ps: State<PeopleService>) -> Json<JsonValue> {
     let p = ps.get_person(id);
 
-    return Json(json!(p))
+    Json(json!(p))
 }
 
 #[get("/")]
 fn get_vehicles(vs: State<VehicleService>) -> Json<JsonValue> {
     let v = vs.get_vehicles();
 
-    return Json(json!(v))
+    Json(json!(v))
 }
 
 #[get("/<id>")]
 fn get_vehicle(id: i32, vs: State<VehicleService>) -> Json<JsonValue> {
     let v = vs.get_vehicle(id);
 
-    return Json(json!(v))
+    Json(json!(v))
 }
 
 
