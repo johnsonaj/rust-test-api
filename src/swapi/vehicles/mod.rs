@@ -7,21 +7,20 @@ pub mod vehicle;
 
 #[derive(Clone)]
 pub struct VehicleService {
-    url: String
+    url: &'static str
 }
 
 impl VehicleService {
-    pub fn new(base: String) -> VehicleService {
-        let mut new_base: String = base.to_owned();
-        let route: &str = "vehicles";
-        new_base.push_str(route);
-        VehicleService{url: new_base}
+    pub fn new(base: &'static str) -> Self {
+        Self{
+            url: base
+        }
     }
 
     pub fn get_vehicle(&self, id: i32) -> Vehicle {
         #[tokio::main]
         async fn get_vehicle_http(url: String, id: i32) -> Result<Vehicle, Error> {
-            let request_url = format!("{}/{}", url.to_string(), id);
+            let request_url = format!("{}vehicles/{}/", url.to_string(), id);
             let response = reqwest::get(&request_url).await?;
             let p: Vehicle = response.json().await?;
 
@@ -37,7 +36,8 @@ impl VehicleService {
     pub fn get_vehicles(&self) -> Value {
         #[tokio::main]
         async fn get_people_http(url: String) -> Result<Value, Error> {
-            let response = reqwest::get(&url.to_string()).await?;
+            let request_url = format!("{}vehicles/", &url.to_string());
+            let response = reqwest::get(&request_url).await?;
             let p: Value = response.json().await?;
 
             Ok(p)

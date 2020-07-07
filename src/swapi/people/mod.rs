@@ -1,9 +1,17 @@
 extern crate reqwest;
+
 use reqwest::Error;
 use serde_json::Value;
 
 mod person;
 use person::{Person, PersonExternal, Find};
+
+extern crate lazy_static;
+
+lazy_static! {
+    // HTTP client to share
+    static ref HTTP_CLIENT: reqwest::Client = reqwest::Client::new();
+}
 
 pub struct PeopleService {
     url: &'static str
@@ -33,8 +41,8 @@ impl PeopleService {
     pub fn get_people(&self) -> Value {
         #[tokio::main]
         async fn get_people_http(url: String) -> Result<Value, Error> {
-            let request_url = format!("{}people", &url.to_string());
-            let response = reqwest::get(&request_url).await?;
+            let request_url = format!("{}people/", &url.to_string());
+            let response = HTTP_CLIENT.get(&request_url).send().await?;
             let p: Value = response.json().await?;
 
             Ok(p)
@@ -49,8 +57,8 @@ impl PeopleService {
     fn get_person_internal(&self, id: i32) -> Person {
         #[tokio::main]
         async fn get_person_http(url: String, id: i32) -> Result<Person, Error> {
-            let request_url = format!("{}people/{}", url.to_string(), id);
-            let response = reqwest::get(&request_url).await?;
+            let request_url = format!("{}people/{}/", url.to_string(), id);
+            let response = HTTP_CLIENT.get(&request_url).send().await?;
             let p: Person = response.json().await?;
 
             Ok(p)

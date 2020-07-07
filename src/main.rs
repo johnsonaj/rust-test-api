@@ -3,6 +3,10 @@
 #[macro_use] extern crate rocket;
 #[macro_use] extern crate rocket_contrib;
 #[macro_use] extern crate serde_derive;
+#[macro_use] extern crate lazy_static;
+
+extern crate env_logger;
+
 
 use rocket::State;
 use rocket_contrib::json::Json;
@@ -42,8 +46,9 @@ fn get_vehicle(id: i32, vs: State<VehicleService>) -> Json<JsonValue> {
 
 
 fn main() {
+    //env_logger::init();
     let base_url = "https://swapi.dev/api/";
-    let vs = VehicleService::new(base_url.to_string());
+    let vs = VehicleService::new(base_url);
     let ps = PeopleService::new(base_url);    
 
     rocket::ignite()
